@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    container_name: pokemons-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    env_file:
+      - .env 
+    depends_on:
+      - redis
+    command: ["poetry", "run", "uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
+
+  redis:
+    image: redis:7-alpine
+    container_name: pokemons-redis
+    ports:
+      - "6379:6379"
+   
